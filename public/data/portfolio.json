@@ -1,0 +1,187 @@
+{
+  "config": {
+    "scrollSpeed": 10,
+    "hoverDelay": 500,
+    "blurDelay": 500
+  },
+  "sections": [
+    {
+      "title": "Syracuse University",
+      "category": "Education",
+      "position": null,
+      "logo": "/images/syracuse/SU-logo.png",
+      "backgroundColor": "#fe5d15",
+      "description": "Studied computer graphics with a focus on graphics programming. Traditionally trained artist with a flavor for special effects and procedural graphics programming.",
+      "startDate": "2001-09-01",
+      "backgroundImage1": "/images/syracuse/syracuseu.webp",
+      "backgroundImage2": "/images/syracuse/syracuse-room.jpg",
+      "projects": [
+        {
+          "title": "Traditinal Art - Colored Pencil",
+          "description": "Exploration of procedural generation techniques combined with traditional art principles. Created using custom shader programs.",
+          "url": null,
+          "date": "2002-03-15",
+          "media": "/images/syracuse/flowerdrop.jpg",
+          "type": "image"
+        },
+        {
+          "title": "Traditinal Art - Oil on Canvas",
+          "description": "Final project demonstrating real-time graphics rendering with dynamic lighting and particle systems.",
+          "url": null,
+          "date": "2003-05-20",
+          "media": "/images/syracuse/Untitled_Oil_1-25-07.jpg",
+          "type": "image"
+        },
+        {
+          "title": "Traditinal Art - Oil on Canvas",
+          "description": "Collection of motion graphics work showcasing animation principles and visual effects.",
+          "url": null,
+          "date": "2004-12-01",
+          "media": "/images/syracuse/Alaska-Oil-Evans.jpg",
+          "type": "image"
+        },
+        {
+          "title": "Traditinal Art - Oil on Canvas",
+          "description": "Collection of motion graphics work showcasing animation principles and visual effects.",
+          "url": null,
+          "date": "2004-12-01",
+          "media": "/images/syracuse/Oil_4-3-07.JPG",
+          "type": "image"
+        }
+        
+      ]
+    },
+    {
+      "title": "ABI Research",
+      "category": "Work Experience",
+      "position": "Website Developer",
+      "logo": null,
+      "backgroundColor": "#476368",
+      "description": "Studied computer graphics with a focus on graphics programming. Traditionally trained artist with a flavor for special effects and procedural graphics programming.",
+      "startDate": "2002-06-01",
+      "backgroundImage1": "/images/abi/newsroom_banner_11.jpg",
+      "backgroundImage2": "/images/abi/newsroom_banner_11.jpg",
+      "projects": [
+        {
+          "title": "3D Illustration",
+          "description": "3D Rendering and illustration for market research publication cover.",
+          "url": null,
+          "date": "2003-06-01",
+          "media": "/images/abi/windturbine.jpg",
+          "type": "image"
+        },
+        {
+          "title": "3D Illustration",
+          "description": "3D Rendering and illustration for market research publication cover.",
+          "url": null,
+          "date": "2003-08-01",
+          "media": "/images/abi/headsetbacker.jpg",
+          "type": "image"
+        },
+        {
+          "title": "3D Illustration",
+          "description": "3D Rendering and illustration for market research publication cover.",
+          "url": null,
+          "date": "2004-06-01",
+          "media": "/images/abi/gps.jpg",
+          "type": "image"
+        },
+        {
+          "title": "3D Illustration",
+          "description": "3D Rendering and illustration for market research publication cover.",
+          "url": null,
+          "date": "2005-08-01",
+          "media": "/images/abi/gate2.jpg",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "title": "Creative Agency",
+      "category": "Work",
+      "logo": "/images/placeholder/logo-placeholder.svg",
+      "backgroundColor": "#16213e",
+      "description": "Led development of interactive web experiences and immersive digital installations for Fortune 500 clients.",
+      "startDate": "2005-06-15",
+      "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
+      "backgroundImage2": "/images/placeholder/bg-placeholder.svg",
+      "projects": [
+        {
+          "title": "Brand Experience Platform",
+          "description": "Interactive 3D product configurator built with WebGL, allowing customers to customize and visualize products in real-time.",
+          "url": "https://example.com/project1",
+          "date": "2006-02-10",
+          "media": "/images/placeholder/project-placeholder.svg",
+          "type": "image"
+        },
+        {
+          "title": "Data Visualization Dashboard",
+          "description": "Real-time data visualization system displaying complex metrics through intuitive, animated graphics.",
+          "url": "https://example.com/project2",
+          "date": "2007-08-22",
+          "media": "/images/placeholder/project-placeholder.svg",
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "title": "Tech Startup",
+      "category": "Work",
+      "logo": "/images/placeholder/logo-placeholder.svg",
+      "backgroundColor": "#0f3460",
+      "description": "Principal engineer building next-generation creative tools and collaborative design platforms.",
+      "startDate": "2010-01-10",
+      "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
+      "backgroundImage2": "/images/placeholder/bg-placeholder.svg",
+      "backgroundImage3": "/images/placeholder/bg-placeholder.svg",
+      "projects": [
+        {
+          "title": "Collaborative Design Tool",
+          "description": "Real-time multiplayer design application with vector editing, prototyping, and developer handoff features.",
+          "url": "https://example.com/design-tool",
+          "date": "2011-04-15",
+          "media": "/images/placeholder/project-placeholder.svg",
+          "type": "image"
+        },
+        {
+          "title": "Animation Engine",
+          "description": "High-performance animation runtime enabling designers to create complex, interactive animations without code.",
+          "url": null,
+          "date": "2012-09-30",
+          "media": "/images/placeholder/project-placeholder.svg",
+          "type": "video"
+        },
+        {
+          "title": "Component Library",
+          "description": "Comprehensive UI component system with built-in accessibility, theming, and documentation.",
+          "url": "https://example.com/components",
+          "date": "2013-11-20",
+          "media": "/images/placeholder/project-placeholder.svg",
+          "type": "image"
+        }
+      ]
+    }
+  ],
+  "outro": {
+    "title": "Let's Connect",
+    "description": "I'm always interested in new opportunities and collaborations. Feel free to reach out!",
+    "email": "hello@example.com",
+    "links": [
+      {
+        "label": "LinkedIn",
+        "url": "https://linkedin.com/in/example",
+        "icon": "linkedin"
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/example",
+        "icon": "github"
+      },
+      {
+        "label": "Twitter",
+        "url": "https://twitter.com/example",
+        "icon": "twitter"
+      }
+    ]
+  }
+}
