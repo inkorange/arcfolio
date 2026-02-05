@@ -12,6 +12,7 @@ export function useAutoScroll() {
     totalWidth,
     scrollSpeed,
     containerRef,
+    outroOffset,
   } = useScroll();
 
   const animationRef = useRef<number | null>(null);
@@ -19,6 +20,29 @@ export function useAutoScroll() {
   const targetSpeedRef = useRef(0); // Start at 0 since isPaused is true initially
   const currentSpeedRef = useRef(0); // Start at 0 since isPaused is true initially
   const hasReachedEndRef = useRef(false); // Track if we've reached the end
+  const viewportWidthRef = useRef(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+  // Use refs to always get latest values in animation loop
+  // Sync refs synchronously (not in useEffect) to avoid race conditions
+  const outroOffsetRef = useRef(outroOffset);
+  const totalWidthRef = useRef(totalWidth);
+  const isPausedRef = useRef(isPaused);
+  const scrollSpeedRef = useRef(scrollSpeed);
+
+  // Update refs synchronously on every render
+  outroOffsetRef.current = outroOffset;
+  totalWidthRef.current = totalWidth;
+  isPausedRef.current = isPaused;
+  scrollSpeedRef.current = scrollSpeed;
+
+  // Update viewport width on resize (not every frame)
+  useEffect(() => {
+    const updateViewportWidth = () => {
+      viewportWidthRef.current = window.innerWidth;
+    };
+    window.addEventListener('resize', updateViewportWidth);
+    return () => window.removeEventListener('resize', updateViewportWidth);
+  }, []);
 
   // Smooth speed transitions
   const lerpSpeed = 0.05;
@@ -32,26 +56,32 @@ export function useAutoScroll() {
       const deltaTime = (currentTime - lastTimeRef.current) / 1000;
       lastTimeRef.current = currentTime;
 
-      // Update target speed based on pause state
-      targetSpeedRef.current = isPaused ? 0 : scrollSpeed;
+      // Use cached viewport width for performance
+      const viewportWidth = viewportWidthRef.current;
+
+      // Update target speed based on pause state (using ref for latest value)
+      // Double speed on mobile (viewport < 768px)
+      const isMobile = viewportWidth < 768;
+      const speedMultiplier = isMobile ? 2 : 1;
+      targetSpeedRef.current = isPausedRef.current ? 0 : scrollSpeedRef.current * speedMultiplier;
 
       // Smoothly interpolate current speed toward target
       currentSpeedRef.current +=
         (targetSpeedRef.current - currentSpeedRef.current) * lerpSpeed;
-
-      // Calculate pixels per frame based on screen width percentage
-      const viewportWidth = window.innerWidth;
       const pixelsPerSecond = (currentSpeedRef.current / 100) * viewportWidth;
       const delta = pixelsPerSecond * deltaTime;
 
-      // Calculate max scroll (total width minus viewport)
-      const maxScroll = Math.max(0, totalWidth - viewportWidth);
+      // Calculate max scroll - stop when outro card's left edge reaches viewport's left edge (x=0)
+      // Use outroOffset if available, otherwise fall back to totalWidth - viewportWidth
+      const currentOutroOffset = outroOffsetRef.current;
+      const currentTotalWidth = totalWidthRef.current;
+      const maxScroll = currentOutroOffset > 0 ? currentOutroOffset : Math.max(0, currentTotalWidth - viewportWidth);
 
       setScrollX((prev: number) => {
         const newX = Math.min(prev + delta, maxScroll);
 
-        // Check if we've reached the end
-        if (newX >= maxScroll - 1 && !hasReachedEndRef.current && !isPaused) {
+        // Check if we've reached the outro card
+        if (newX >= maxScroll - 1 && !hasReachedEndRef.current && !isPausedRef.current) {
           hasReachedEndRef.current = true;
           // Pause on next frame to avoid state update during render
           setTimeout(() => pause(), 0);
@@ -65,7 +95,7 @@ export function useAutoScroll() {
 
       animationRef.current = requestAnimationFrame(animate);
     },
-    [isPaused, scrollSpeed, totalWidth, setScrollX, pause]
+    [setScrollX, pause]
   );
 
   useEffect(() => {

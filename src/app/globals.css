@@ -56,17 +56,30 @@
 }
 
 @layer components {
-  /* Glassmorphism card */
+  /* Glassmorphism card - reduced blur on mobile for performance */
   .glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(var(--glass-blur));
-    -webkit-backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     border: 1px solid var(--glass-border);
   }
 
-  /* Subtle glow effect */
+  @media (min-width: 768px) {
+    .glass {
+      backdrop-filter: blur(var(--glass-blur));
+      -webkit-backdrop-filter: blur(var(--glass-blur));
+    }
+  }
+
+  /* Subtle glow effect - simplified on mobile */
   .glow {
-    box-shadow: 0 0 20px var(--accent-glow);
+    box-shadow: 0 0 12px var(--accent-glow);
+  }
+
+  @media (min-width: 768px) {
+    .glow {
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
   }
 
   /* Smooth transitions for all interactive elements */
@@ -106,9 +119,15 @@
     background-clip: text;
   }
 
-  /* Glowing shadow for accent elements */
+  /* Glowing shadow for accent elements - simplified on mobile */
   .shadow-glow {
-    box-shadow: 0 0 12px var(--accent-glow), 0 0 24px var(--accent-glow);
+    box-shadow: 0 0 8px var(--accent-glow);
+  }
+
+  @media (min-width: 768px) {
+    .shadow-glow {
+      box-shadow: 0 0 12px var(--accent-glow), 0 0 24px var(--accent-glow);
+    }
   }
 
   /* Sharp text shadow for readability */

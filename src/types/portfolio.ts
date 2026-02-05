@@ -25,6 +25,7 @@ export interface OutroCard {
   title: string;
   description: string;
   email?: string;
+  backgroundImage1?: string;
   links?: {
     label: string;
     url: string;

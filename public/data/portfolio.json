@@ -82,6 +82,14 @@
           "title": "3D Illustration",
           "description": "3D Rendering and illustration for market research publication cover.",
           "url": null,
+          "date": "2003-08-02",
+          "media": "/images/abi/mfc_chip.jpg",
+          "type": "image"
+        },
+        {
+          "title": "3D Illustration",
+          "description": "3D Rendering and illustration for market research publication cover.",
+          "url": null,
           "date": "2004-06-01",
           "media": "/images/abi/gps.jpg",
           "type": "image"
@@ -97,12 +105,13 @@
       ]
     },
     {
-      "title": "Creative Agency",
-      "category": "Work",
+      "title": "Barnes & Noble.com",
+      "category": "Work Experience",
+      "position": "Senior Front End Engineer",
       "logo": "/images/placeholder/logo-placeholder.svg",
       "backgroundColor": "#16213e",
-      "description": "Led development of interactive web experiences and immersive digital installations for Fortune 500 clients.",
-      "startDate": "2005-06-15",
+      "description": "Helped engineer BN.com’s Java-based e-commerce platform while practicing quick, iterative development cycles and robust A/B testing scenarios, wrapped in a clean templating environment. Worked closely with design and product owners, advising on UI/UX requirements. Translated Photoshop mock-ups and design decks into working, interactive, rich applications.",
+      "startDate": "2012-12-01",
       "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
       "backgroundImage2": "/images/placeholder/bg-placeholder.svg",
       "projects": [
@@ -125,38 +134,70 @@
       ]
     },
     {
-      "title": "Tech Startup",
-      "category": "Work",
-      "logo": "/images/placeholder/logo-placeholder.svg",
-      "backgroundColor": "#0f3460",
-      "description": "Principal engineer building next-generation creative tools and collaborative design platforms.",
-      "startDate": "2010-01-10",
+      "title": "Zebra Technologies",
+      "category": "Work Experience",
+      "position": "Lead Front End Engineer",
+      "logo": "/images/zebra/Zebra_Logo.webp",
+      "backgroundColor": "#000000",
+      "description": "Led an engineering team that architected a desktop, native application using Electron to deliver our machine vision scanner software. Team lead for Zebra’s primary UI Front End group, managing a team of 5 engineers in migrating legacy applications to modern web apps.",
+      "startDate": "2014-12-01",
       "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
-      "backgroundImage2": "/images/placeholder/bg-placeholder.svg",
-      "backgroundImage3": "/images/placeholder/bg-placeholder.svg",
+      "backgroundImage2": "/images/zebra/Header-Panel-Image-02-600.png",
       "projects": [
         {
-          "title": "Collaborative Design Tool",
-          "description": "Real-time multiplayer design application with vector editing, prototyping, and developer handoff features.",
-          "url": "https://example.com/design-tool",
-          "date": "2011-04-15",
+          "title": "Brand Experience Platform",
+          "description": "Interactive 3D product configurator built with WebGL, allowing customers to customize and visualize products in real-time.",
+          "url": "https://example.com/project1",
+          "date": "2006-02-10",
           "media": "/images/placeholder/project-placeholder.svg",
           "type": "image"
         },
         {
-          "title": "Animation Engine",
-          "description": "High-performance animation runtime enabling designers to create complex, interactive animations without code.",
-          "url": null,
-          "date": "2012-09-30",
+          "title": "Data Visualization Dashboard",
+          "description": "Real-time data visualization system displaying complex metrics through intuitive, animated graphics.",
+          "url": "https://example.com/project2",
+          "date": "2007-08-22",
           "media": "/images/placeholder/project-placeholder.svg",
-          "type": "video"
+          "type": "image"
+        }
+      ]
+    },
+    {
+      "title": "Traditional Artwork",
+      "category": "Artwork",
+      "logo": null,
+      "backgroundColor": "#0f3460",
+      "description": "Personal artwork projects, paintings.",
+      "startDate": "2015-01-10",
+      "backgroundImage1": "/images/traditional/sunset3dpainting.jpg",
+      "backgroundImage2": "/images/traditional/artshow.jpg",
+      "projects": [
+        {
+          "title": "painting 1",
+          "description": "Oil on cavas",
+          "date": "2011-01-15",
+          "media": "images/traditional/20220127_104904.jpg",
+          "type": "image"
         },
         {
-          "title": "Component Library",
-          "description": "Comprehensive UI component system with built-in accessibility, theming, and documentation.",
-          "url": "https://example.com/components",
-          "date": "2013-11-20",
-          "media": "/images/placeholder/project-placeholder.svg",
+          "title": "painting 2",
+          "description": "Oil on cavas",
+          "date": "2011-01-15",
+          "media": "images/traditional/roughsea.jpg",
+          "type": "image"
+        },
+        {
+          "title": "painting 3",
+          "description": "Oil on cavas",
+          "date": "2011-01-15",
+          "media": "images/traditional/DSCN3014.jpg",
+          "type": "image"
+        },
+        {
+          "title": "painting 4",
+          "description": "Oil on cavas",
+          "date": "2011-01-15",
+          "media": "images/traditional/20220130_093244.jpg",
           "type": "image"
         }
       ]
@@ -166,6 +207,7 @@
     "title": "Let's Connect",
     "description": "I'm always interested in new opportunities and collaborations. Feel free to reach out!",
     "email": "hello@example.com",
+    "backgroundImage1": "images/space_background.jpg",
     "links": [
       {
         "label": "LinkedIn",

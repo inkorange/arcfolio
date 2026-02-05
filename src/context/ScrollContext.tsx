@@ -29,6 +29,8 @@ interface ScrollContextType {
   containerRef: React.RefObject<HTMLDivElement | null>;
   isCardFocused: boolean;
   setIsCardFocused: (focused: boolean) => void;
+  outroOffset: number;
+  setOutroOffset: (offset: number) => void;
 }
 
 const ScrollContext = createContext<ScrollContextType | null>(null);
@@ -42,15 +44,55 @@ export function ScrollProvider({
   children,
   initialScrollSpeed = 10,
 }: ScrollProviderProps) {
-  const [scrollX, setScrollX] = useState(0);
-  const [isPaused, setIsPaused] = useState(true); // Start paused until user clicks
+  // All state declarations first
+  const [scrollX, setScrollXInternal] = useState(0);
+  const [isPaused, setIsPaused] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [sectionOffsets, setSectionOffsets] = useState<number[]>([]);
   const [totalWidth, setTotalWidth] = useState(0);
   const [scrollSpeed] = useState(initialScrollSpeed);
   const [isCardFocused, setIsCardFocused] = useState(false);
+  const [outroOffset, setOutroOffset] = useState(0);
+
+  // Refs
   const containerRef = useRef<HTMLDivElement>(null);
+  const outroOffsetRef = useRef(0);
+  const totalWidthRef = useRef(0);
+  const viewportWidthRef = useRef(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+  // Keep refs in sync - update synchronously on every render
+  outroOffsetRef.current = outroOffset;
+  totalWidthRef.current = totalWidth;
+
+  // Update viewport width on resize only
+  useEffect(() => {
+    const updateViewportWidth = () => {
+      viewportWidthRef.current = window.innerWidth;
+    };
+    window.addEventListener('resize', updateViewportWidth);
+    return () => window.removeEventListener('resize', updateViewportWidth);
+  }, []);
+
+  // Wrap setScrollX to clamp to maxScroll
+  const setScrollX: React.Dispatch<React.SetStateAction<number>> = useCallback((value) => {
+    setScrollXInternal((prev) => {
+      const newValue = typeof value === 'function' ? value(prev) : value;
+
+      // Calculate maxScroll using refs (always current values)
+      const currentOutroOffset = outroOffsetRef.current;
+      const currentTotalWidth = totalWidthRef.current;
+      const viewportWidth = viewportWidthRef.current;
+      const maxScroll = currentOutroOffset > 0
+        ? currentOutroOffset
+        : Math.max(0, currentTotalWidth - viewportWidth);
+
+      // Clamp to maxScroll
+      const clampedValue = maxScroll > 0 ? Math.min(newValue, maxScroll) : newValue;
+
+      return clampedValue;
+    });
+  }, []);
 
   const pause = useCallback(() => {
     setIsPaused(true);
@@ -118,6 +160,8 @@ export function ScrollProvider({
         containerRef,
         isCardFocused,
         setIsCardFocused,
+        outroOffset,
+        setOutroOffset,
       }}
     >
       {children}

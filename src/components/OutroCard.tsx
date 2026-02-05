@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { OutroCard as OutroCardType } from "@/types/portfolio";
 import { useScroll } from "@/context/ScrollContext";
 
@@ -33,20 +33,73 @@ const icons: Record<string, React.ReactNode> = {
 };
 
 export function OutroCard({ outro }: OutroCardProps) {
-  const { jumpToSection } = useScroll();
+  const { jumpToSection, setOutroOffset } = useScroll();
+  const outroRef = useRef<HTMLDivElement>(null);
 
   const handleStartAgain = useCallback(() => {
     jumpToSection(0);
   }, [jumpToSection]);
 
+  // Register outro offset - use multiple strategies to ensure we capture the correct value
+  useLayoutEffect(() => {
+    const updateOffset = () => {
+      if (outroRef.current) {
+        const offset = outroRef.current.offsetLeft;
+        if (offset > 0) {
+          setOutroOffset(offset);
+        }
+      }
+    };
+
+    // Try immediately
+    updateOffset();
+
+    // Also try after a frame (ensures layout is complete)
+    const rafId = requestAnimationFrame(() => {
+      updateOffset();
+      // And again after another frame for good measure
+      requestAnimationFrame(updateOffset);
+    });
+
+    // Also try after a short delay (for slow renders)
+    const timeoutId = setTimeout(updateOffset, 100);
+    const timeoutId2 = setTimeout(updateOffset, 500);
+
+    // Also update on resize
+    window.addEventListener("resize", updateOffset);
+
+    // Use ResizeObserver to catch layout changes
+    const resizeObserver = new ResizeObserver(updateOffset);
+    if (outroRef.current?.parentElement) {
+      resizeObserver.observe(outroRef.current.parentElement);
+    }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timeoutId);
+      clearTimeout(timeoutId2);
+      window.removeEventListener("resize", updateOffset);
+      resizeObserver.disconnect();
+    };
+  }, [setOutroOffset]);
+
   return (
     <div
+      ref={outroRef}
       className="flex-shrink-0 h-screen relative flex items-center justify-center"
       style={{
         width: "100vw",
         background: "linear-gradient(135deg, var(--background) 0%, #1a1a2e 100%)",
       }}
     >
+      {/* Ghosted background image */}
+      {outro.backgroundImage1 && (
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-25"
+          style={{ backgroundImage: `url(${outro.backgroundImage1})` }}
+        />
+      )}
+
       {/* Subtle background pattern */}
       <div
         className="absolute inset-0 opacity-5"

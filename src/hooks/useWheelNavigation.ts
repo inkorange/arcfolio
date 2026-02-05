@@ -15,6 +15,8 @@ export function useWheelNavigation() {
     resume,
     start,
     isCardFocused,
+    outroOffset,
+    setScrollX,
   } = useScroll();
   const lastWheelTime = useRef(0);
   const wheelThreshold = 300; // ms between wheel events to trigger section jump
@@ -30,8 +32,17 @@ export function useWheelNavigation() {
     }
   }, [hasStarted, isPaused, pause, resume, start]);
 
+  // Check if we're at the outro
+  const isAtOutro = outroOffset > 0 && scrollX >= outroOffset - 100;
+
   // Navigate to previous section (or start of current if in middle)
   const navigatePrevious = useCallback(() => {
+    // If we're at the outro, go back to the last section
+    if (isAtOutro && sectionOffsets.length > 0) {
+      jumpToSection(sectionOffsets.length - 1);
+      return;
+    }
+
     const currentOffset = sectionOffsets[currentSectionIndex] || 0;
     const threshold = 50; // pixels - if within this range of section start, go to previous
 
@@ -42,14 +53,17 @@ export function useWheelNavigation() {
       // Otherwise jump to previous section
       jumpToSection(currentSectionIndex - 1);
     }
-  }, [scrollX, currentSectionIndex, sectionOffsets, jumpToSection]);
+  }, [scrollX, currentSectionIndex, sectionOffsets, jumpToSection, isAtOutro]);
 
-  // Navigate to next section
+  // Navigate to next section (or outro if at last section)
   const navigateNext = useCallback(() => {
     if (currentSectionIndex < sectionOffsets.length - 1) {
       jumpToSection(currentSectionIndex + 1);
+    } else if (outroOffset > 0 && !isAtOutro) {
+      // At the last section, jump to outro
+      setScrollX(outroOffset);
     }
-  }, [currentSectionIndex, sectionOffsets.length, jumpToSection]);
+  }, [currentSectionIndex, sectionOffsets.length, jumpToSection, outroOffset, isAtOutro, setScrollX]);
 
   // Wheel navigation
   useEffect(() => {

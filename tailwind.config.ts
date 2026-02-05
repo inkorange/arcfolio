@@ -33,8 +33,8 @@ const config: Config = {
         soft: "0 4px 20px rgba(0, 0, 0, 0.15)",
         glow: "0 0 20px rgba(255, 255, 255, 0.1)",
         "glow-accent": "0 0 30px var(--accent-glow)",
-        card: "0 8px 32px rgba(0, 0, 0, 0.3)",
-        "card-hover": "0 16px 48px rgba(0, 0, 0, 0.4)",
+        card: "0 8px 32px rgba(0, 0, 0, 0.6), 0 4px 16px rgba(0, 0, 0, 0.4)",
+        "card-hover": "0 20px 60px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4)",
       },
       backdropBlur: {
         xs: "2px",

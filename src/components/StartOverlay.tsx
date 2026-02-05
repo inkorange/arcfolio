@@ -11,7 +11,7 @@ export function StartOverlay() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center pb-16 cursor-pointer"
+      className="fixed inset-0 z-[100] flex items-end justify-center pb-16 cursor-pointer"
       onClick={start}
     >
       {/* Subtle gradient at bottom for visibility */}

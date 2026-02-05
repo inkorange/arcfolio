@@ -24,11 +24,24 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
     const calculateWidth = () => {
       if (containerRef.current) {
         const width = containerRef.current.scrollWidth;
-        setTotalWidth(width);
+        if (width > 0) {
+          setTotalWidth(width);
+        }
       }
     };
 
+    // Try immediately
     calculateWidth();
+
+    // Also try after frames (ensures layout is complete)
+    const rafId = requestAnimationFrame(() => {
+      calculateWidth();
+      requestAnimationFrame(calculateWidth);
+    });
+
+    // Also try after delays
+    const timeoutId = setTimeout(calculateWidth, 100);
+    const timeoutId2 = setTimeout(calculateWidth, 500);
 
     // Recalculate on resize
     window.addEventListener("resize", calculateWidth);
@@ -40,6 +53,9 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
     }
 
     return () => {
+      cancelAnimationFrame(rafId);
+      clearTimeout(timeoutId);
+      clearTimeout(timeoutId2);
       window.removeEventListener("resize", calculateWidth);
       resizeObserver.disconnect();
     };
@@ -53,9 +69,6 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
       <div
         ref={containerRef}
         className="flex h-screen will-change-transform"
-        style={{
-          transition: "transform 0.1s linear",
-        }}
       >
         {children}
       </div>

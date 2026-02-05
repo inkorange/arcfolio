@@ -432,12 +432,12 @@ export function ProjectCard({
       {/* Original card in the scroll container */}
       <div
         ref={setRefs}
-        className={`flex-shrink-0 interactive glass rounded-xl overflow-hidden cursor-pointer group transition-all duration-slow ${
+        className={`flex-shrink-0 interactive glass rounded-xl overflow-hidden cursor-pointer group transition-all duration-slow border ${
           isFocused
-            ? "opacity-0 pointer-events-none"
+            ? "opacity-0 pointer-events-none border-white/15"
             : isHovering || showHoverDetail
-              ? "shadow-card-hover glow"
-              : "shadow-card hover:shadow-card-hover hover:glow"
+              ? "glow border-white/25"
+              : "hover:glow hover:border-white/25 border-white/15"
         } ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         style={{
           width: cardWidth,
@@ -445,6 +445,13 @@ export function ProjectCard({
           maxWidth: cardMaxWidth,
           marginTop: `${verticalOffset}px`,
           transform: isInView ? "translateY(0)" : "translateY(2rem)",
+          boxShadow: isFocused
+            ? "none"
+            : isHovering || showHoverDetail
+              ? isDesktop
+                ? "0 20px 60px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4)"
+                : "0 8px 24px rgba(0, 0, 0, 0.5)"
+              : "0 4px 12px rgba(0, 0, 0, 0.4)",
         }}
         onMouseEnter={isTouchDevice ? undefined : handleMouseEnter}
         onMouseLeave={isTouchDevice ? undefined : handleMouseLeave}
