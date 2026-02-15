@@ -141,35 +141,20 @@ export function ScrollProvider({
     [sectionOffsets, setScrollX]
   );
 
-  // Update current section based on scroll position — reads DOM refs for accuracy
+  // Update current section based on scroll position
+  // Uses cached sectionOffsets state (not DOM reads) since this runs every frame
+  // DOM reads are reserved for jumpToSection which only runs on user interaction
   useEffect(() => {
-    if (sectionRefsMap.current.size === 0 && sectionOffsets.length === 0) return;
+    if (sectionOffsets.length === 0) return;
 
     let newSectionIndex = 0;
-
-    // Prefer DOM refs for accurate offsets (images may have resized sections)
-    if (sectionRefsMap.current.size > 0) {
-      const entries = Array.from(sectionRefsMap.current.entries()).sort(
-        ([a], [b]) => a - b
-      );
-      for (const [idx, el] of entries) {
-        if (scrollX >= el.offsetLeft) {
-          newSectionIndex = idx;
-        } else {
-          break;
-        }
-      }
-    } else {
-      // Fallback to state-based offsets
-      for (let i = 0; i < sectionOffsets.length; i++) {
-        if (scrollX >= sectionOffsets[i]) {
-          newSectionIndex = i;
-        } else {
-          break;
-        }
+    for (let i = 0; i < sectionOffsets.length; i++) {
+      if (scrollX >= sectionOffsets[i]) {
+        newSectionIndex = i;
+      } else {
+        break;
       }
     }
-
     setCurrentSectionIndex(newSectionIndex);
   }, [scrollX, sectionOffsets]);
 

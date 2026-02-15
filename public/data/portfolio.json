@@ -135,11 +135,11 @@
       "category": "Work Experience",
       "position": "Senior Front End Engineer",
       "logo": "/images/bn/Barnes__Noble_Logo.png",
-      "backgroundColor": "#143017",
+      "backgroundColor": "#0a3a26",
       "description": "Helped engineer BN.com’s Java-based e-commerce platform while practicing quick, iterative development cycles and robust A/B testing scenarios, wrapped in a clean templating environment. Worked closely with design and product owners, advising on UI/UX requirements. Translated Photoshop mock-ups and design decks into working, interactive, rich applications.",
       "startDate": "2012-12-01",
-      "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
-      "backgroundImage2": "/images/placeholder/bg-placeholder.svg",
+      "backgroundImage1": "/images/bn/bn-background.jpg",
+      "backgroundImage2": "/images/bn/bn-background-1.jpg",
       "projects": [
         {
           "title": "Brand Experience Platform",
