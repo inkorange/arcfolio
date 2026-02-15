@@ -31,6 +31,8 @@ interface ScrollContextType {
   setIsCardFocused: (focused: boolean) => void;
   outroOffset: number;
   setOutroOffset: (offset: number) => void;
+  registerSectionRef: (index: number, el: HTMLDivElement | null) => void;
+  jumpSignalRef: React.MutableRefObject<boolean>;
 }
 
 const ScrollContext = createContext<ScrollContextType | null>(null);
@@ -60,6 +62,8 @@ export function ScrollProvider({
   const outroOffsetRef = useRef(0);
   const totalWidthRef = useRef(0);
   const viewportWidthRef = useRef(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const sectionRefsMap = useRef<Map<number, HTMLDivElement>>(new Map());
+  const jumpSignalRef = useRef(false); // Signal to animation loop to reset speed after jump
 
   // Keep refs in sync - update synchronously on every render
   outroOffsetRef.current = outroOffset;
@@ -107,35 +111,65 @@ export function ScrollProvider({
     setIsPaused(false);
   }, []);
 
+  const registerSectionRef = useCallback((index: number, el: HTMLDivElement | null) => {
+    if (el) {
+      sectionRefsMap.current.set(index, el);
+    } else {
+      sectionRefsMap.current.delete(index);
+    }
+  }, []);
+
   const jumpToSection = useCallback(
     (index: number) => {
-      if (index >= 0 && index < sectionOffsets.length) {
-        const targetX = sectionOffsets[index];
+      // Read offset directly from the DOM for accuracy
+      const sectionEl = sectionRefsMap.current.get(index);
+      const targetX = sectionEl ? sectionEl.offsetLeft
+        : (index >= 0 && index < sectionOffsets.length) ? sectionOffsets[index]
+        : null;
+
+      if (targetX !== null) {
+        jumpSignalRef.current = true; // Tell animation loop to reset speed
         setScrollX(targetX);
         setCurrentSectionIndex(index);
 
-        // If jumping to the very beginning, reset to initial stopped state
         if (index === 0 && targetX === 0) {
           setHasStarted(false);
           setIsPaused(true);
         }
       }
     },
-    [sectionOffsets]
+    [sectionOffsets, setScrollX]
   );
 
-  // Update current section based on scroll position
+  // Update current section based on scroll position — reads DOM refs for accuracy
   useEffect(() => {
-    if (sectionOffsets.length === 0) return;
+    if (sectionRefsMap.current.size === 0 && sectionOffsets.length === 0) return;
 
     let newSectionIndex = 0;
-    for (let i = 0; i < sectionOffsets.length; i++) {
-      if (scrollX >= sectionOffsets[i]) {
-        newSectionIndex = i;
-      } else {
-        break;
+
+    // Prefer DOM refs for accurate offsets (images may have resized sections)
+    if (sectionRefsMap.current.size > 0) {
+      const entries = Array.from(sectionRefsMap.current.entries()).sort(
+        ([a], [b]) => a - b
+      );
+      for (const [idx, el] of entries) {
+        if (scrollX >= el.offsetLeft) {
+          newSectionIndex = idx;
+        } else {
+          break;
+        }
+      }
+    } else {
+      // Fallback to state-based offsets
+      for (let i = 0; i < sectionOffsets.length; i++) {
+        if (scrollX >= sectionOffsets[i]) {
+          newSectionIndex = i;
+        } else {
+          break;
+        }
       }
     }
+
     setCurrentSectionIndex(newSectionIndex);
   }, [scrollX, sectionOffsets]);
 
@@ -162,6 +196,8 @@ export function ScrollProvider({
         setIsCardFocused,
         outroOffset,
         setOutroOffset,
+        registerSectionRef,
+        jumpSignalRef,
       }}
     >
       {children}

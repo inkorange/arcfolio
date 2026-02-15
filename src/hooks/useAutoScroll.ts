@@ -13,6 +13,7 @@ export function useAutoScroll() {
     scrollSpeed,
     containerRef,
     outroOffset,
+    jumpSignalRef,
   } = useScroll();
 
   const animationRef = useRef<number | null>(null);
@@ -49,6 +50,16 @@ export function useAutoScroll() {
 
   const animate = useCallback(
     (currentTime: number) => {
+      // After a jump, reset speed and skip this frame's delta
+      if (jumpSignalRef.current) {
+        jumpSignalRef.current = false;
+        currentSpeedRef.current = 0;
+        targetSpeedRef.current = 0;
+        lastTimeRef.current = currentTime;
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
       if (lastTimeRef.current === 0) {
         lastTimeRef.current = currentTime;
       }

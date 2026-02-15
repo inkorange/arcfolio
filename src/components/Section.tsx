@@ -16,7 +16,7 @@ interface SectionProps {
 }
 
 export function Section({ section, index, blurDelay = 500 }: SectionProps) {
-  const { setSectionOffsets, pause, resume } = useScroll();
+  const { setSectionOffsets, pause, resume, containerRef, registerSectionRef } = useScroll();
   const sectionRef = useRef<HTMLDivElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
   const resumeTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -83,29 +83,28 @@ export function Section({ section, index, blurDelay = 500 }: SectionProps) {
     };
   }, []);
 
+  // Register section ref for direct DOM reads during navigation
+  useEffect(() => {
+    registerSectionRef(index, sectionRef.current);
+    return () => registerSectionRef(index, null);
+  }, [index, registerSectionRef]);
+
   // Intro width: 50vw on desktop, 100vw on mobile
   const introWidthVw = isDesktop ? 50 : 100;
 
-  // Card width + gap spacing + padding
-  // Desktop: 20vw cards + ~4vw gap + 8vw padding = 25vw per card + 10vw buffer
-  // Mobile: 75vw cards + ~8vw gap + 8vw padding = 85vw per card + 10vw buffer
-  const cardWidthVw = isDesktop ? 25 : 85;
-  const projectsWidthVw = section.projects.length * cardWidthVw + 10;
-  const sectionWidthVw = `${introWidthVw + projectsWidthVw}vw`;
-
-  // Register section offset on mount and when width changes
+  // Register section offset on mount and when ANY section resizes
   useEffect(() => {
     const updateMeasurements = () => {
       if (sectionRef.current) {
         const offset = sectionRef.current.offsetLeft;
         setSectionOffsets((prev: number[]) => {
           const newOffsets = [...prev];
+          if (newOffsets[index] === offset) return prev; // no change, avoid re-render
           newOffsets[index] = offset;
           return newOffsets;
         });
       }
       if (projectsRef.current && sectionRef.current) {
-        // Calculate absolute offset: section offset + intro width (projects offset relative to section)
         const absoluteOffset = sectionRef.current.offsetLeft + projectsRef.current.offsetLeft;
         setProjectsOffset(absoluteOffset);
         setProjectsWidthPx(projectsRef.current.offsetWidth);
@@ -114,16 +113,34 @@ export function Section({ section, index, blurDelay = 500 }: SectionProps) {
 
     updateMeasurements();
 
-    // Update on resize
+    // Re-measure on window resize
     window.addEventListener("resize", updateMeasurements);
-    return () => window.removeEventListener("resize", updateMeasurements);
-  }, [index, setSectionOffsets, isDesktop]);
+
+    // Re-measure when images load (they determine card widths)
+    const images = projectsRef.current?.querySelectorAll("img");
+    const onLoad = () => updateMeasurements();
+    images?.forEach((img) => {
+      if (!img.complete) {
+        img.addEventListener("load", onLoad);
+      }
+    });
+
+    // Observe the PARENT container — when any section resizes, the container
+    // resizes, and ALL sections re-measure their offsets
+    const observer = new ResizeObserver(updateMeasurements);
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    return () => {
+      window.removeEventListener("resize", updateMeasurements);
+      images?.forEach((img) => img.removeEventListener("load", onLoad));
+      observer.disconnect();
+    };
+  }, [index, setSectionOffsets, isDesktop, containerRef]);
 
   return (
     <div
       ref={sectionRef}
       className="flex-shrink-0 h-screen relative flex"
-      style={{ width: sectionWidthVw }}
     >
       {/* Section Intro - 50vw on desktop, 100vw on mobile */}
       <div
@@ -206,25 +223,24 @@ export function Section({ section, index, blurDelay = 500 }: SectionProps) {
         </div>
       </div>
 
-      {/* Projects Area */}
+      {/* Projects Area - sized by card content, no explicit width */}
       <div
         ref={projectsRef}
-        className="flex-shrink-0 h-full relative overflow-hidden"
-        style={{
-          width: `${projectsWidthVw}vw`,
-          backgroundColor: section.backgroundColor,
-        }}
+        className="flex-shrink-0 h-full relative"
+        style={{ backgroundColor: section.backgroundColor }}
       >
-        {/* Parallax Background Layers */}
-        <ParallaxLayers
-          backgroundImage2={section.backgroundImage2}
-          backgroundImage3={section.backgroundImage3}
-          sectionOffset={projectsOffset}
-          sectionWidth={projectsWidthPx}
-        />
+        {/* Parallax Background Layers - fills projects area */}
+        <div className="absolute inset-0 overflow-hidden">
+          <ParallaxLayers
+            backgroundImage2={section.backgroundImage2}
+            backgroundImage3={section.backgroundImage3}
+            sectionOffset={projectsOffset}
+            sectionWidth={projectsWidthPx}
+          />
+        </div>
 
-        {/* Project Cards */}
-        <div className="absolute inset-0 flex items-center gap-16 px-16 z-10">
+        {/* Project Cards - normal flow, determines projects area width */}
+        <div className="relative h-full flex items-center gap-16 pl-24 pr-16 z-10">
           {section.projects.map((project, projectIndex) => (
             <ProjectCard
               key={projectIndex}
@@ -234,6 +250,8 @@ export function Section({ section, index, blurDelay = 500 }: SectionProps) {
               onMouseLeave={handleCardLeave}
             />
           ))}
+          {/* Buffer space after last card */}
+          <div className="flex-shrink-0" style={{ width: isDesktop ? 64 : 32 }} />
         </div>
       </div>
     </div>
