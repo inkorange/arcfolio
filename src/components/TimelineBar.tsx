@@ -31,14 +31,14 @@ export function TimelineBar({ sections }: TimelineBarProps) {
     ? new Date(currentSection.startDate).getFullYear()
     : null;
 
-  // Calculate date range from sections
-  const { minYear, maxYear, dateRange } = useMemo(() => {
-    if (sections.length === 0) return { minYear: 0, maxYear: 0, dateRange: 0 };
+  // Calculate date range — end of timeline is always the current year
+  const { minYear, dateRange } = useMemo(() => {
+    if (sections.length === 0) return { minYear: 0, dateRange: 0 };
 
     const years = sections.map((s) => new Date(s.startDate).getFullYear());
     const min = Math.min(...years);
-    const max = Math.max(...years);
-    return { minYear: min, maxYear: max, dateRange: max - min };
+    const currentYear = new Date().getFullYear();
+    return { minYear: min, dateRange: currentYear - min };
   }, [sections]);
 
 
@@ -166,9 +166,9 @@ export function TimelineBar({ sections }: TimelineBarProps) {
           </div>
         </div>
 
-        {/* End year */}
+        {/* End label */}
         <div className="flex-shrink-0">
-          <span className="text-sm font-semibold text-muted">{maxYear}</span>
+          <span className="text-sm font-semibold text-muted">Today</span>
         </div>
 
         {/* Current section label - desktop only */}

@@ -53,7 +53,7 @@ export function ParallaxLayers({
           }}
         >
           <div
-            className="w-full h-full bg-cover bg-right opacity-30"
+            className="w-full h-full bg-cover bg-left opacity-55"
             style={{
               backgroundImage: `url(${backgroundImage3})`,
             }}
@@ -75,7 +75,7 @@ export function ParallaxLayers({
           }}
         >
           <div
-            className="w-full h-full bg-cover bg-right opacity-40"
+            className="w-full h-full bg-cover bg-left opacity-65"
             style={{
               backgroundImage: `url(${backgroundImage2})`,
             }}
