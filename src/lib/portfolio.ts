@@ -26,7 +26,7 @@ export async function getPortfolioData(): Promise<PortfolioData> {
   // Sort projects within each section by date
   data.sections.forEach((section) => {
     section.projects.sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      (a, b) => new Date(a.date ?? 0).getTime() - new Date(b.date ?? 0).getTime()
     );
   });
 

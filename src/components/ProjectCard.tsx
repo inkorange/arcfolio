@@ -228,13 +228,18 @@ export function ProjectCard({
   // Card content for inline (non-focused) display
   const inlineCardContent = () => (
     <>
-      {/* Media Container */}
+      {/* Media Container - image determines card width via aspect ratio */}
       <div className="bg-card relative overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={project.media}
           alt={project.title}
-          className={`w-full h-auto transition-transform duration-slow ${isHovering ? "scale-105" : ""}`}
+          className={`block transition-transform duration-slow ${isHovering ? "scale-105" : ""}`}
+          style={{
+            maxHeight: isDesktop ? "calc(75vh - 80px)" : "45vh", // Account for card content below
+            width: "auto",
+            height: "auto",
+          }}
         />
 
         {/* Video Play Button Overlay */}
@@ -287,66 +292,74 @@ export function ProjectCard({
         <h3 className="font-semibold text-lg mb-1 line-clamp-1">
           {project.title}
         </h3>
-        <span className="text-sm text-muted">
-          {new Date(project.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-          })}
-        </span>
+        {project.date && (
+          <span className="text-sm text-muted">
+            {new Date(project.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+            })}
+          </span>
+        )}
       </div>
     </>
   );
 
-  // Focused card content with overlay on image
+  // Focused card content - image on top, text below, scrollable if needed
   const focusedCardContent = () => (
-    <div className="relative">
-      {/* Full-size image - determines card size */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={project.media}
-        alt={project.title}
-        style={{
-          maxHeight: "85vh",
-          maxWidth: "90vw",
-          display: "block",
-        }}
-      />
+    <div className="flex flex-col bg-card" style={{ maxHeight: "90vh" }}>
+      {/* Image area */}
+      <div className="relative flex-shrink-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={project.media}
+          alt={project.title}
+          style={{
+            maxHeight: "60vh",
+            maxWidth: "90vw",
+            display: "block",
+            width: "100%",
+            objectFit: "cover",
+          }}
+        />
 
-      {/* Video Play Button Overlay */}
-      {project.type === "video" && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-20 h-20 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
-            <svg
-              className="w-8 h-8 text-white ml-1"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M8 5v14l11-7z" />
-            </svg>
+        {/* Video Play Button Overlay */}
+        {project.type === "video" && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="w-20 h-20 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center">
+              <svg
+                className="w-8 h-8 text-white ml-1"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
-      {/* Content overlay at bottom of image */}
-      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/80 to-transparent p-6 pt-20">
-        <h3 className="font-semibold text-2xl mb-1 drop-shadow-lg">
+      {/* Content below image - scrollable if needed */}
+      <div className="p-6 overflow-y-auto flex-shrink min-h-0">
+        <h3 className="font-semibold text-2xl mb-1">
           {project.title}
         </h3>
-        <span className="text-sm text-white/80 drop-shadow">
-          {new Date(project.date).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "short",
-          })}
-        </span>
+        {project.date && (
+          <span className="text-sm text-muted">
+            {new Date(project.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+            })}
+          </span>
+        )}
 
-        {/* Description */}
-        <p className="text-base md:text-lg text-white/90 leading-relaxed mt-3 line-clamp-4 drop-shadow">
+        {/* Description - full text, no truncation */}
+        <p className="text-base md:text-lg text-white/90 leading-relaxed mt-3">
           {project.description}
         </p>
 
         {/* URL indicator / CTA */}
         {project.url && (
-          <div className="mt-3 flex items-center gap-2 text-sm text-accent drop-shadow">
+          <div className="mt-3 flex items-center gap-2 text-sm text-accent">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -367,9 +380,9 @@ export function ProjectCard({
     </div>
   );
 
-  const cardWidth = isDesktop ? "20vw" : "75vw";
-  const cardMinWidth = isDesktop ? "240px" : "260px";
-  const cardMaxWidth = isDesktop ? "400px" : "none";
+  // Variable width cards - image determines width, constrained by max-height
+  const cardMinWidth = isDesktop ? "200px" : "240px";
+  const cardMaxWidth = isDesktop ? "35vw" : "80vw";
 
   return (
     <>
@@ -398,7 +411,7 @@ export function ProjectCard({
                       left: "50%",
                       top: "50%",
                       transform: "translate(-50%, -50%) scale3d(1, 1, 1)",
-                      maxHeight: "85vh",
+                      maxHeight: "90vh",
                       maxWidth: "90vw",
                       boxShadow: "0 25px 80px -12px rgba(0, 0, 0, 0.9), 0 0 60px rgba(59, 130, 246, 0.3)",
                       outline: "2px solid rgba(59, 130, 246, 0.5)",
@@ -412,7 +425,7 @@ export function ProjectCard({
                       top: focusedSize
                         ? originalRect.top + originalRect.height / 2
                         : originalRect.top,
-                      maxHeight: "85vh",
+                      maxHeight: "90vh",
                       maxWidth: "90vw",
                       transform: focusedSize
                         ? `translate(-50%, -50%) scale(${Math.min(originalRect.width / focusedSize.width, originalRect.height / focusedSize.height)})`
@@ -440,7 +453,6 @@ export function ProjectCard({
               : "hover:glow hover:border-white/25 border-white/15"
         } ${isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
         style={{
-          width: cardWidth,
           minWidth: cardMinWidth,
           maxWidth: cardMaxWidth,
           marginTop: `${verticalOffset}px`,

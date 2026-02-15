@@ -1,17 +1,16 @@
 # ArcFolio
 
-A cinematic, horizontal-scrolling portfolio experience built with Next.js. ArcFolio transforms your professional history into an immersive visual journey, perfect for creatives, developers, and professionals who want to showcase their work in a memorable way.
+A cinematic, horizontal-scrolling portfolio built with Next.js. Configure your entire site through a single JSON file — add sections, projects, and contact info, and ArcFolio handles the rest.
 
 ## Features
 
-- **Horizontal Timeline Navigation** - Scroll through your career chronologically with smooth, auto-scrolling animation
-- **Parallax Backgrounds** - Multi-layer parallax effects create depth and visual interest
-- **Interactive Project Cards** - Hover or tap to pause and explore project details
-- **Date-Based Timeline** - Visual timeline shows your journey from start to present
-- **Responsive Design** - Optimized for both desktop and mobile experiences
-- **Touch Support** - Full touch device support with intuitive gestures
-- **Image Preloading** - Smart asset preloading with progress indicator
-- **Keyboard Navigation** - Full keyboard control for accessibility
+- **Horizontal Timeline** — Auto-scrolling, date-based navigation through your career
+- **Parallax Backgrounds** — Multi-layer depth effects behind project cards
+- **Variable-Width Project Cards** — Cards size to their image aspect ratio with hover/tap interactions
+- **Responsive** — Optimized for desktop and mobile with touch support
+- **SEO Ready** — Full Open Graph, structured data, and meta tag support via `meta` config
+- **Keyboard & Wheel Navigation** — Arrow keys, spacebar, scroll wheel, and touch gestures
+- **Image Preloading** — Asset preloading with progress indicator
 
 ## Getting Started
 
@@ -45,33 +44,89 @@ npm start
 
 ## Configuration
 
-All portfolio content is configured through a single JSON file located at `public/data/portfolio.json`.
+All portfolio content is configured through a single JSON file at `public/data/portfolio.json`.
 
-### Configuration Structure
+> **Quick Start:** Copy [`public/data/sample.jsonc`](public/data/sample.jsonc) to `portfolio.json` and replace the placeholder content with your own. The sample includes inline comments explaining every field.
+
+### Top-Level Structure
+
+```json
+{
+  "meta": { ... },
+  "config": { ... },
+  "sections": [ ... ],
+  "outro": { ... }
+}
+```
+
+---
+
+### Meta (SEO & Site Metadata)
+
+Used for `<head>` tags, Open Graph, and structured data.
+
+```json
+{
+  "meta": {
+    "title": "Your Name | Your Title",
+    "description": "A short bio or tagline.",
+    "siteUrl": "https://yoursite.com",
+    "ogImage": "/images/og-image.jpg",
+    "author": {
+      "name": "Your Name",
+      "jobTitle": "Software Engineer",
+      "email": "you@example.com",
+      "url": "https://yoursite.com"
+    },
+    "social": {
+      "twitter": "@yourhandle",
+      "github": "https://github.com/yourhandle",
+      "linkedin": "https://linkedin.com/in/yourhandle"
+    },
+    "keywords": ["portfolio", "developer"],
+    "themeColor": "#0a0a12",
+    "locale": "en_US"
+  }
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `title` | string | Yes | Browser tab title and OG title |
+| `description` | string | Yes | Meta description for search engines |
+| `siteUrl` | string | Yes | Canonical URL of your deployed site |
+| `ogImage` | string | No | Open Graph image path (1200x630 recommended) |
+| `author` | object | Yes | Author info (`name` required; `jobTitle`, `email`, `url` optional) |
+| `social` | object | No | Social profiles (`twitter`, `github`, `linkedin`) |
+| `keywords` | string[] | No | Meta keywords |
+| `themeColor` | string | No | Browser theme color |
+| `locale` | string | No | Open Graph locale (default: `en_US`) |
+
+---
+
+### Config (Scroll Behavior)
 
 ```json
 {
   "config": {
     "scrollSpeed": 10,
-    "hoverDelay": 750,
+    "hoverDelay": 500,
     "blurDelay": 500
-  },
-  "sections": [...],
-  "outro": {...}
+  }
 }
 ```
 
-### Config Options
-
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `scrollSpeed` | number | 10 | Auto-scroll speed (percentage of viewport width per second) |
-| `hoverDelay` | number | 750 | Milliseconds before hover triggers pause |
-| `blurDelay` | number | 500 | Milliseconds before scroll resumes after leaving a card |
+| `scrollSpeed` | number | 10 | Auto-scroll speed (% of viewport width per second) |
+| `hoverDelay` | number | 500 | ms before hovering a card pauses auto-scroll |
+| `blurDelay` | number | 500 | ms after leaving a card before auto-scroll resumes |
 
-### Section Structure
+---
 
-Each section represents a chapter in your professional journey (education, job, project collection, etc.):
+### Sections
+
+Each section is a chapter in your timeline with a full-screen intro and project cards. Order them chronologically — the timeline bar maps `startDate` to position.
 
 ```json
 {
@@ -80,37 +135,39 @@ Each section represents a chapter in your professional journey (education, job, 
   "position": "Senior Developer",
   "logo": "/images/company/logo.png",
   "backgroundColor": "#1a1a2e",
-  "description": "Brief description of your role and accomplishments.",
+  "description": "Brief description of your role.",
   "startDate": "2020-01-15",
   "backgroundImage1": "/images/company/hero.jpg",
-  "backgroundImage2": "/images/company/parallax-bg.jpg",
-  "backgroundImage3": "/images/company/parallax-fg.jpg",
+  "backgroundImage2": "/images/company/parallax-mid.jpg",
+  "backgroundImage3": "/images/company/parallax-far.jpg",
   "projects": [...]
 }
 ```
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `title` | string | Yes | Section title (company, school, or project name) |
-| `category` | string | Yes | Category label (e.g., "Work", "Education", "Freelance") |
-| `position` | string | No | Your role or title |
-| `logo` | string | No | Path to logo image |
-| `backgroundColor` | string | Yes | CSS color for section background |
+| `title` | string | Yes | Section heading (company, school, or collection name) |
+| `category` | string | Yes | Label above the date (e.g. "Education", "Work Experience") |
+| `position` | string | No | Job title or role, shown under the heading |
+| `logo` | string | No | Logo image displayed above the title |
+| `backgroundColor` | string | Yes | CSS color for the section background |
 | `description` | string | Yes | Brief description of the section |
-| `startDate` | string | Yes | ISO date string (YYYY-MM-DD) |
-| `backgroundImage1` | string | No | Hero/intro background image |
-| `backgroundImage2` | string | No | Parallax layer (medium speed) |
-| `backgroundImage3` | string | No | Parallax layer (slow speed) |
+| `startDate` | string | Yes | ISO date (YYYY-MM-DD) — positions on the timeline |
+| `backgroundImage1` | string | No | Intro screen background (25% opacity) |
+| `backgroundImage2` | string | No | Parallax layer — medium scroll speed |
+| `backgroundImage3` | string | No | Parallax layer — slow scroll speed |
 | `projects` | array | Yes | Array of project objects |
 
-### Project Structure
+---
 
-Projects are displayed as interactive cards within each section:
+### Projects
+
+Projects are displayed as interactive cards. Card width is determined by the image aspect ratio, constrained to a max height of 75vh.
 
 ```json
 {
   "title": "Project Name",
-  "description": "Detailed description of the project and your contributions.",
+  "description": "What this project is about.",
   "url": "https://example.com/project",
   "date": "2020-06-15",
   "media": "/images/projects/screenshot.jpg",
@@ -120,28 +177,28 @@ Projects are displayed as interactive cards within each section:
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `title` | string | Yes | Project title |
-| `description` | string | Yes | Project description |
-| `url` | string | No | Link to live project or case study |
-| `date` | string | Yes | Project completion date (YYYY-MM-DD) |
-| `media` | string | Yes | Path to project image or video |
-| `type` | string | Yes | Media type: `"image"` or `"video"` |
+| `title` | string | Yes | Card heading |
+| `description` | string | Yes | Project description (full text shown on click/tap) |
+| `url` | string \| null | No | Link to live project — use `null` for no link |
+| `date` | string | No | Display date (YYYY-MM-DD) — omit to hide |
+| `media` | string | Yes | Path to image or video (relative to `/public`) |
+| `type` | string | Yes | `"image"` or `"video"` (video shows a play overlay) |
 
-### Outro Structure
+---
 
-The outro appears at the end of the timeline with contact information:
+### Outro
+
+The final card at the end of the timeline with contact info.
 
 ```json
 {
   "title": "Let's Connect",
-  "description": "A brief message inviting visitors to reach out.",
-  "email": "your@email.com",
+  "description": "A brief call-to-action message.",
+  "email": "you@example.com",
+  "backgroundImage1": "/images/outro-bg.jpg",
   "links": [
-    {
-      "label": "LinkedIn",
-      "url": "https://linkedin.com/in/yourprofile",
-      "icon": "linkedin"
-    }
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/you", "icon": "linkedin" },
+    { "label": "GitHub", "url": "https://github.com/you", "icon": "github" }
   ]
 }
 ```
@@ -150,23 +207,27 @@ The outro appears at the end of the timeline with contact information:
 |----------|------|----------|-------------|
 | `title` | string | Yes | Outro heading |
 | `description` | string | Yes | Call-to-action message |
-| `email` | string | No | Contact email address |
-| `links` | array | No | Array of social links |
+| `email` | string | No | Contact email (rendered as mailto link) |
+| `backgroundImage1` | string | No | Background image for the outro card |
+| `links` | array | No | Social/external links |
 
-**Supported Icons:** `linkedin`, `github`, `twitter`, `email`
+**Supported link icons:** `linkedin`, `github`, `twitter`
 
-## Keyboard Controls
+---
 
-| Key | Action |
-|-----|--------|
+## Controls
+
+| Input | Action |
+|-------|--------|
 | `Space` | Start / Pause / Resume scrolling |
-| `←` Arrow Left | Jump to previous section |
-| `→` Arrow Right | Jump to next section |
+| `←` / `→` | Jump to previous / next section |
 | `Escape` | Close focused project card |
+| Scroll wheel | Navigate between sections |
+| Timeline markers | Click to jump to any section |
 
 ## Adding Images
 
-Place your images in the `public/images/` directory. Reference them in your configuration with paths starting from `/images/`:
+Place images in `public/images/` and reference them with paths starting from `/images/`:
 
 ```
 public/
@@ -175,7 +236,6 @@ public/
       logo.png
       hero.jpg
       project-1.jpg
-      project-2.jpg
 ```
 
 ## Tech Stack

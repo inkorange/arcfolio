@@ -1,0 +1,131 @@
+// =============================================================================
+// ArcFolio - Portfolio Configuration File
+// =============================================================================
+// Copy this file to portfolio.json and customize it with your own content.
+// Remove all comments (// lines) before using — standard JSON does not support comments.
+// =============================================================================
+
+{
+  // ---------------------------------------------------------------------------
+  // META - SEO and site metadata (used for <head> tags, Open Graph, etc.)
+  // ---------------------------------------------------------------------------
+  "meta": {
+    "title": "Your Name | Your Title",              // Browser tab title & OG title
+    "description": "A short bio or tagline.",        // Meta description for search engines
+    "siteUrl": "https://yoursite.com",               // Canonical URL of your deployed site
+    "ogImage": "/images/og-image.jpg",               // Open Graph image (1200x630 recommended)
+    "author": {
+      "name": "Your Name",                           // Used in structured data
+      "jobTitle": "Software Engineer",               // Optional - schema.org jobTitle
+      "email": "you@example.com",                    // Optional - not displayed publicly
+      "url": "https://yoursite.com"                  // Optional - author URL
+    },
+    "social": {                                      // Optional - social profile links
+      "twitter": "@yourhandle",
+      "github": "https://github.com/yourhandle",
+      "linkedin": "https://linkedin.com/in/yourhandle"
+    },
+    "keywords": ["portfolio", "developer"],          // Optional - meta keywords
+    "themeColor": "#0a0a12",                         // Optional - browser theme color
+    "locale": "en_US"                                // Optional - Open Graph locale
+  },
+
+  // ---------------------------------------------------------------------------
+  // CONFIG - Controls scroll behavior and interaction timing
+  // ---------------------------------------------------------------------------
+  "config": {
+    "scrollSpeed": 10,    // Auto-scroll speed: percentage of viewport width per second (default: 10)
+    "hoverDelay": 500,    // Milliseconds before hovering a card pauses auto-scroll (default: 500)
+    "blurDelay": 500      // Milliseconds after leaving a card before auto-scroll resumes (default: 500)
+  },
+
+  // ---------------------------------------------------------------------------
+  // SECTIONS - Each section is a chapter in your timeline
+  // Sections scroll horizontally. Each has an intro screen and project cards.
+  // Order them chronologically — the timeline bar maps startDate to position.
+  // ---------------------------------------------------------------------------
+  "sections": [
+    {
+      // --- Section Intro (the full-screen title card) ---
+      "title": "University of Example",               // Large heading on the intro screen
+      "category": "Education",                         // Small label above the date (e.g. "Education", "Work Experience", "Artwork")
+      "position": null,                                // Optional - job title or role, shown under the heading. Use null to omit.
+      "logo": "/images/example/logo.png",              // Optional - logo image displayed above the title
+      "backgroundColor": "#1a1a2e",                    // CSS color for the section background (hex, rgb, hsl)
+      "description": "Describe what this chapter of your career or life was about.",
+      "startDate": "2018-09-01",                       // ISO date — positions this section on the timeline bar
+
+      // --- Background Images (all optional) ---
+      // These create depth with parallax scrolling behind the project cards.
+      "backgroundImage1": "/images/example/bg1.jpg",   // Intro screen ghosted background (25% opacity)
+      "backgroundImage2": "/images/example/bg2.jpg",   // Mid-layer parallax (slower scroll)
+      "backgroundImage3": "/images/example/bg3.jpg",   // Far-layer parallax (slowest scroll)
+
+      // --- Projects ---
+      // Each project becomes a card in the horizontal scroll area.
+      // Cards have variable width based on image aspect ratio.
+      "projects": [
+        {
+          "title": "Project Name",                     // Card heading
+          "description": "What this project is about. Longer descriptions will expand the focused card view with scrollable text.",
+          "url": "https://example.com/project",        // Optional - link to live project. Use null for no link.
+          "date": "2019-03-15",                        // Optional - displayed as "Mar 2019" on the card. Omit to hide.
+          "media": "/images/example/project1.jpg",     // Path to image (relative to /public). Determines card width via aspect ratio.
+          "type": "image"                              // "image" or "video" — video shows a play button overlay
+        },
+        {
+          "title": "Another Project",
+          "description": "Projects without a URL still show in the timeline but won't have a 'click to view' link.",
+          "url": null,
+          "media": "/images/example/project2.jpg",
+          "type": "image"
+          // "date" is omitted here — the card will simply not show a date
+        }
+      ]
+    },
+
+    // Add more sections to extend your timeline...
+    {
+      "title": "Acme Corp",
+      "category": "Work Experience",
+      "position": "Senior Engineer",
+      "logo": "/images/acme/logo.png",
+      "backgroundColor": "#2d2d44",
+      "description": "Led front-end architecture for the company's flagship product.",
+      "startDate": "2020-06-01",
+      "backgroundImage1": "/images/acme/bg.jpg",
+      "projects": [
+        {
+          "title": "Design System",
+          "description": "Built a reusable component library used across 5 product teams.",
+          "url": "https://example.com/design-system",
+          "date": "2021-01-10",
+          "media": "/images/acme/design-system.jpg",
+          "type": "image"
+        }
+      ]
+    }
+  ],
+
+  // ---------------------------------------------------------------------------
+  // OUTRO - The final "contact" card at the end of the timeline
+  // ---------------------------------------------------------------------------
+  "outro": {
+    "title": "Let's Connect",                          // Heading on the outro card
+    "description": "A short call-to-action message.",   // Subheading / message
+    "email": "you@example.com",                        // Optional - displayed as a mailto link
+    "backgroundImage1": "/images/outro-bg.jpg",        // Optional - background image for the outro card
+    "links": [                                         // Optional - social / external links
+      {
+        "label": "LinkedIn",                           // Button text
+        "url": "https://linkedin.com/in/yourhandle",   // Link URL
+        "icon": "linkedin"                             // Icon key: "linkedin", "github", "twitter", or omit
+      },
+      {
+        "label": "GitHub",
+        "url": "https://github.com/yourhandle",
+        "icon": "github"
+      }
+    ]
+  }
+}

@@ -1,4 +1,30 @@
 {
+  "meta": {
+    "title": "Christopher West | UI Software Engineer & Artist",
+    "description": "Senior software engineer and traditional artist with expertise in React, Next.js, and front-end architecture. Explore my professional journey and artwork portfolio.",
+    "siteUrl": "https://portfolio.chriswest.tech",
+    "ogImage": "/images/og-image.jpg",
+    "author": {
+      "name": "Christopher West",
+      "jobTitle": "Software Engineering Lead"
+    },
+    "social": {
+      "twitter": "@chriswest_tech",
+      "github": "https://github.com/inkorange",
+      "linkedin": "https://www.linkedin.com/in/christophermwest/"
+    },
+    "keywords": [
+      "software engineer",
+      "front-end developer",
+      "React",
+      "Next.js",
+      "portfolio",
+      "traditional artist",
+      "oil painting"
+    ],
+    "themeColor": "#0a0a12",
+    "locale": "en_US"
+  },
   "config": {
     "scrollSpeed": 10,
     "hoverDelay": 500,
@@ -57,7 +83,7 @@
       "position": "Website Developer",
       "logo": null,
       "backgroundColor": "#476368",
-      "description": "Studied computer graphics with a focus on graphics programming. Traditionally trained artist with a flavor for special effects and procedural graphics programming.",
+      "description": "Website development for the company's marketing platform. Created 3D illustrations and renderings for market research publications.",
       "startDate": "2002-06-01",
       "backgroundImage1": "/images/abi/newsroom_banner_11.jpg",
       "backgroundImage2": "/images/abi/newsroom_banner_11.jpg",
@@ -108,8 +134,8 @@
       "title": "Barnes & Noble.com",
       "category": "Work Experience",
       "position": "Senior Front End Engineer",
-      "logo": "/images/placeholder/logo-placeholder.svg",
-      "backgroundColor": "#16213e",
+      "logo": "/images/bn/Barnes__Noble_Logo.png",
+      "backgroundColor": "#143017",
       "description": "Helped engineer BN.com’s Java-based e-commerce platform while practicing quick, iterative development cycles and robust A/B testing scenarios, wrapped in a clean templating environment. Worked closely with design and product owners, advising on UI/UX requirements. Translated Photoshop mock-ups and design decks into working, interactive, rich applications.",
       "startDate": "2012-12-01",
       "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
@@ -201,27 +227,53 @@
           "type": "image"
         }
       ]
+    },
+    {
+      "title": "Under Armour",
+      "category": "Work Experience",
+      "logo": "images/ua/ua-logo.png",
+      "backgroundColor": "#000000",
+      "description": "Software Engineering Lead",
+      "startDate": "2023-01-20",
+      "backgroundImage1": "/images/ua/ua-background-1.jpg",
+      "backgroundImage2": "/images/ua/ua-background-2.jpg",
+      "projects": [
+        {
+          "title": "UA.com NextJS Application",
+          "description": "Developed and defined best practices for NextJS, React, and GraphQL applications; collaborated with Product and UX on our reusable component library to ensure design consistency.\nHands-on development of our eCommerce checkout (including 3rd party payment systems), product details, and listings page development, delivering several front-end solutions on time and within budget.",
+          "date": null,
+          "media": "images/ua/ua-screen-1.jpg",
+          "type": "image"
+        },
+        {
+          "title": "UA.com Web Component Library",
+          "description": "Defined and documented web component code conventions across all web assets; spearheaded Storybook documentation and bundled/published UA's reusable component library. Collaborated with UX designers and engineers across multiple teams to maintain corporate design patterns, ensuring consistency across one of the world's most performant eCommerce sites.",
+          "date": null,
+          "media": "images/ua/ua-screen-2.jpg",
+          "type": "image"
+        }
+      ]
     }
   ],
   "outro": {
     "title": "Let's Connect",
     "description": "I'm always interested in new opportunities and collaborations. Feel free to reach out!",
-    "email": "hello@example.com",
+    "email": "thrillgraphics@gmail.com",
     "backgroundImage1": "images/space_background.jpg",
     "links": [
       {
         "label": "LinkedIn",
-        "url": "https://linkedin.com/in/example",
+        "url": "https://www.linkedin.com/in/christophermwest/",
         "icon": "linkedin"
       },
       {
         "label": "GitHub",
-        "url": "https://github.com/example",
+        "url": "https://github.com/inkorange",
         "icon": "github"
       },
       {
-        "label": "Twitter",
-        "url": "https://twitter.com/example",
+        "label": "X",
+        "url": "https://x.com/chriswest_tech",
         "icon": "twitter"
       }
     ]

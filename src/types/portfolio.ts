@@ -1,8 +1,33 @@
+export interface PortfolioMetaAuthor {
+  name: string;
+  email?: string;
+  jobTitle?: string;
+  url?: string;
+}
+
+export interface PortfolioMetaSocial {
+  twitter?: string;
+  github?: string;
+  linkedin?: string;
+}
+
+export interface PortfolioMeta {
+  title: string;
+  description: string;
+  siteUrl: string;
+  ogImage?: string;
+  author: PortfolioMetaAuthor;
+  social?: PortfolioMetaSocial;
+  keywords?: string[];
+  themeColor?: string;
+  locale?: string;
+}
+
 export interface Project {
   title: string;
   description: string;
   url: string | null;
-  date: string; // ISO date string, e.g., "2001-05-02"
+  date?: string; // ISO date string, e.g., "2001-05-02"
   media: string; // path to image or video
   type: "image" | "video";
 }
@@ -40,6 +65,7 @@ export interface PortfolioConfig {
 }
 
 export interface PortfolioData {
+  meta: PortfolioMeta;
   config?: PortfolioConfig;
   sections: Section[];
   outro: OutroCard;
