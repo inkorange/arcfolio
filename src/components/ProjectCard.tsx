@@ -307,16 +307,15 @@ export function ProjectCard({
 
   // Focused card content - image on top, text below, scrollable if needed
   const focusedCardContent = () => (
-    <div className="flex flex-col bg-card" style={{ maxHeight: "90vh" }}>
+    <div className="flex flex-col bg-card" style={{ maxHeight: isDesktop ? "90vh" : "92vh" }}>
       {/* Image area */}
-      <div className="relative flex-shrink-0">
+      <div className="relative flex-shrink-0 overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={project.media}
           alt={project.title}
           style={{
-            maxHeight: "60vh",
-            maxWidth: "90vw",
+            maxHeight: isDesktop ? "60vh" : "55vh",
             display: "block",
             width: "100%",
             objectFit: "cover",
@@ -412,7 +411,8 @@ export function ProjectCard({
                       left: "50%",
                       top: "50%",
                       transform: "translate(-50%, -50%) scale3d(1, 1, 1)",
-                      maxHeight: "90vh",
+                      width: isDesktop ? undefined : "90vw",
+                      maxHeight: isDesktop ? "90vh" : "92vh",
                       maxWidth: "90vw",
                       boxShadow: "0 25px 80px -12px rgba(0, 0, 0, 0.9), 0 0 60px rgba(59, 130, 246, 0.3)",
                       outline: "2px solid rgba(59, 130, 246, 0.5)",
@@ -426,7 +426,8 @@ export function ProjectCard({
                       top: focusedSize
                         ? originalRect.top + originalRect.height / 2
                         : originalRect.top,
-                      maxHeight: "90vh",
+                      width: isDesktop ? undefined : "90vw",
+                      maxHeight: isDesktop ? "90vh" : "92vh",
                       maxWidth: "90vw",
                       transform: focusedSize
                         ? `translate(-50%, -50%) scale(${Math.min(originalRect.width / focusedSize.width, originalRect.height / focusedSize.height)})`
