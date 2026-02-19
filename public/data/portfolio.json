@@ -140,6 +140,7 @@
       "startDate": "2012-12-01",
       "backgroundImage1": "/images/bn/bn-background.jpg",
       "backgroundImage2": "/images/bn/bn-background-1.jpg",
+      "show": false,
       "projects": [
         {
           "title": "Brand Experience Platform",
@@ -169,6 +170,7 @@
       "startDate": "2014-12-01",
       "backgroundImage1": "/images/placeholder/bg-placeholder.svg",
       "backgroundImage2": "/images/zebra/Header-Panel-Image-02-600.png",
+      "show": false,
       "projects": [
         {
           "title": "Brand Experience Platform",

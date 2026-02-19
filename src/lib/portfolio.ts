@@ -23,6 +23,9 @@ export async function getPortfolioData(): Promise<PortfolioData> {
     (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   );
 
+  // Filter out hidden sections (show defaults to true if not specified)
+  data.sections = data.sections.filter((section) => section.show !== false);
+
   // Sort projects within each section by date
   data.sections.forEach((section) => {
     section.projects.sort(

@@ -54,6 +54,7 @@
       "backgroundColor": "#1a1a2e",                    // CSS color for the section background (hex, rgb, hsl)
       "description": "Describe what this chapter of your career or life was about.",
       "startDate": "2018-09-01",                       // ISO date — positions this section on the timeline bar
+      "show": true,                                    // Optional — set to false to hide this section (useful for WIP). Defaults to true.
 
       // --- Background Images (all optional) ---
       // These create depth with parallax scrolling behind the project cards.

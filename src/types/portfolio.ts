@@ -40,6 +40,7 @@ export interface Section {
   backgroundColor: string; // CSS color value
   description: string;
   startDate: string; // ISO date string
+  show?: boolean; // Whether to display this section (default: true)
   backgroundImage1?: string;
   backgroundImage2?: string;
   backgroundImage3?: string;

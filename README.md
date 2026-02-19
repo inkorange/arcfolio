@@ -137,6 +137,7 @@ Each section is a chapter in your timeline with a full-screen intro and project 
   "backgroundColor": "#1a1a2e",
   "description": "Brief description of your role.",
   "startDate": "2020-01-15",
+  "show": true,
   "backgroundImage1": "/images/company/hero.jpg",
   "backgroundImage2": "/images/company/parallax-mid.jpg",
   "backgroundImage3": "/images/company/parallax-far.jpg",
@@ -153,6 +154,7 @@ Each section is a chapter in your timeline with a full-screen intro and project 
 | `backgroundColor` | string | Yes | CSS color for the section background |
 | `description` | string | Yes | Brief description of the section |
 | `startDate` | string | Yes | ISO date (YYYY-MM-DD) — positions on the timeline |
+| `show` | boolean | No | Set to `false` to hide a section entirely (default: `true`). Hidden sections are excluded from rendering, timeline navigation, and image preloading. Useful for work-in-progress sections. |
 | `backgroundImage1` | string | No | Intro screen background (25% opacity) |
 | `backgroundImage2` | string | No | Parallax layer — medium scroll speed |
 | `backgroundImage3` | string | No | Parallax layer — slow scroll speed |
