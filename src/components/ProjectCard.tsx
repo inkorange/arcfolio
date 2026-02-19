@@ -236,9 +236,10 @@ export function ProjectCard({
           alt={project.title}
           className={`block transition-transform duration-slow ${isHovering ? "scale-105" : ""}`}
           style={{
-            maxHeight: isDesktop ? "calc(75vh - 80px)" : "45vh", // Account for card content below
-            width: "auto",
+            maxHeight: isDesktop ? "calc(75vh - 80px)" : "45vh",
+            width: isDesktop ? "auto" : "100%",
             height: "auto",
+            objectFit: isDesktop ? undefined : "cover",
           }}
         />
 

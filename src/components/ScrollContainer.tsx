@@ -4,6 +4,7 @@ import { useEffect, useRef, ReactNode } from "react";
 import { useScroll } from "@/context/ScrollContext";
 import { useAutoScroll } from "@/hooks/useAutoScroll";
 import { useWheelNavigation } from "@/hooks/useWheelNavigation";
+import { useDragScroll } from "@/hooks/useDragScroll";
 
 interface ScrollContainerProps {
   children: ReactNode;
@@ -18,6 +19,9 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
 
   // Initialize wheel navigation
   useWheelNavigation();
+
+  // Initialize drag/touch scrolling
+  useDragScroll(wrapperRef);
 
   // Calculate total width on mount and resize
   useEffect(() => {
@@ -64,7 +68,8 @@ export function ScrollContainer({ children }: ScrollContainerProps) {
   return (
     <div
       ref={wrapperRef}
-      className={`fixed inset-0 overflow-hidden ${isPaused ? "" : "scrolling"}`}
+      className={`fixed inset-0 overflow-hidden cursor-grab active:cursor-grabbing ${isPaused ? "" : "scrolling"}`}
+      style={{ touchAction: "pan-y" }}
     >
       <div
         ref={containerRef}
